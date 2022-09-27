@@ -1,4 +1,4 @@
-# Class Project Website Template
+# Class Project Website 
 
 Copy this template on github, and rename the repo to the name of your project.
 
