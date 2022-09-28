@@ -1,89 +1,147 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<title>Your Project Name</title>
-<meta property="og:title" content=Your Project Name" />
-<meta name="twitter:title" content="Your Project Name" />
-<meta name="description" content="Your project about your cool topic described right here." />
-<meta property="og:description" content="Your project about your cool topic described right here." />
-<meta name="twitter:description" content="Your project about your cool topic described right here." />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary" /> 
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<!-- bootstrap for mobile-friendly layout -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-<link href="style.css" rel="stylesheet">
+  <title>Deep Learning Final project</title>
+  <meta property="og:title" content=Your Project Name" />
+  <meta name="twitter:title" content="Your Project Name" />
+  <meta name="description" content="Your project about your cool topic described right here." />
+  <meta property="og:description" content="Your project about your cool topic described right here." />
+  <meta name="twitter:description" content="Your project about your cool topic described right here." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- bootstrap for mobile-friendly layout -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+    crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
 
 </head>
+
 <body class="nd-docs">
-<div class="nd-pageheader">
- <div class="container">
- <h1 class="lead">
- <nobr class="widenobr">Your Project Name</nobr>
- <nobr class="widenobr">For CS 7150</nobr>
- </h1>
- </div>
-</div><!-- end nd-pageheader -->
-
-<div class="container">
-<div class="row">
-<div class="col justify-content-center text-center">
-<h2>Are Artificial Neural Networks Modular?</h2>
-<p>This is a great place to pose the big question that interests your group.</p>
-</div>
-</div>
-<div class="row">
-<div class="col">
-
-<h2>Related Work</h2>
-
-<p><a href="#bottou-1990">Bottou, et al (1990) [1]</a>
-wrote a cool paper which, as an example, could be the focus of your project,
-and this is a great place to talk about the prior work.
-They claimed that neural networks could be expressed as a modular architecture,
-and in this project you explore their claim in detail by implementing a new modular
-framework for creating neural networks that we call <em>Torch</em>.  (Actually,
-Torch really was developed ten years after Bottou's paper to explore his ideas.)
-</p>
-
-<h3>References</h3>
-
-<p><a name="bottou-1990">[1]</a> <a href="https://papers.baulab.info/Bottou-1990.pdf"
-  >L&eacute;on Bottou and Patrick Gallinari.
-  <em>A framework for the cooperation of learning algorithms.</em></a>
-  Advances in neural information processing systems 3 (1990).
-</p>
-
-<h2>Team Members</h2>
-                                                   
-<p>Here is who is on the team.</p>
-
-  
-</div><!--col-->
-</div><!--row -->
-</div> <!-- container -->
-
-<footer class="nd-pagefooter">
-  <div class="row">
-    <div class="col-6 col-md text-center">
-      <a href="https://cs7150.baulab.info/">About CS 7150</a>
+  <div class="nd-pageheader">
+    <div class="container">
+      <h1 class="lead">
+        <nobr class="widenobr">Deep Learning Final Project</nobr>
+        <nobr class="widenobr">For CS 7150</nobr>
+      </h1>
     </div>
-  </div>
-</footer>
+  </div><!-- end nd-pageheader -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col justify-content-center text-center">
+        <h2>Augmentation and Adjustment: Can we improve Neural Image Caption model performance?</h2>
+        <p>Neural Image Caption (NIC) generates image captions using Vision Based Deep Network and LSTM</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+
+        <h2>Related Work</h2>
+
+        <p>
+          In 2015, <a href="[1]">Oriol Vinyals</a> and his team were successfully able to automatically generate a caption given 
+          an input image by combining advanced computer vision and natural language processing techniques. 
+          The model, dubbed the Neural Image Caption (NIC), utilizes Convolution Neural Networks (CNN) and 
+          Recurrent Neural Network (RNN) technology to capture not only objects within the images, but also 
+          relationships between them. Previous attempts to solve the problem proposed to glue together sentences 
+          from images or image descriptions to describe the content of an image with words <a href='[2]'>[2]</a>,<a href='[3]'>[3]</a>.
+          However, this paper presented a novel technique that achieved state-of-the-art performance inspired by breakthroughs 
+          made in 2014 in machine translation. <a href='[4]'>Cho, et. al [4]</a> proved that text translation can be achieved by 
+          simply leveraging RNNs to encode source sentences, then decode them to generate target sentences. 
+          Vinyals, et. al. were able to adapt this idea to form a more robust model using a CNN as the encoder 
+          which produces a rich representation of the input image by embedding it to a fixed-length vector. 
+          <br>
+          <br>
+          The NIC model directly maximizes the probability of correctly describing an image. To model the probability of 
+          a sentence given an image, a particular RNN called Long-Short Term Memory (LSTM) was selected due to its 
+          abilities for handling sequence tasks as well as vanishing and exploding gradients. As input to the LSTM model, 
+          the authors chose to use word embedding vectors <a href='[5]'>[5]</a> and speculated that distances between word embeddings may 
+          provide more insight for rarer words. We aim to explore this hypothesis by adjusting the word embedding vector 
+          representations such that each word is closest to other words with similar definitions. This in turn can improve 
+          the performance of the model in some particular edge cases. An important note also mentioned in the paper indicated 
+          that performance improves as the size of the datasets increases. This is true for many machine learning models and 
+          we would like to discover if this problem can be mitigated by simply using data augmentation approaches such as image 
+          rotation and positional translation. With these changes to the model, we hope to improve its performance in order to 
+          better serve those who need it.
+
+        </p>
+
+        <h2>Project Proposal</h1>
+
+          <p>
+            Vision and natural language has been an active topic in the machine learning world for the past 7 years. 
+            Although Vinyals and his team were able to achieve state-of-the-art performance, there were still many images 
+            incorrectly described during their time. For the visually impaired, incorrect image captions could mislead the 
+            actual situation. This is critical because the visually impaired could benefit the most from this type of technology. 
+            The question becomes whether or not the performance for NIC can be improved? One idea is to increase the training dataset, 
+            but the biggest issue is to find or create a large enough dataset to use, which is why we propose the use of data 
+            augmentation techniques. By leveraging data augmentation techniques, the training dataset can be artificially increased, 
+            and potentially gain performance.
+            <br>
+            <br>
+            Another way to potentially increase performance will be to use a word embedding trick. 
+            <a href='[1]'>Vinyals [1]</a> mentioned that the word embedding vector model, chosen over the one-hot encoding and bag-of-words, 
+            was selected because of its independence from dictionary size and information structure. We propose to adjust 
+            the word embeddings so that the words with similar definitions are closest to each other. This should allow 
+            better sentence selection to describe the image, and improve performance of the NIC model. By adjusting word 
+            embeddings to similar definitions, we can pair performance gains with data augmentation techniques to see 
+            whether performance can be near or meet human performance.
+  
+          </p>
+
+        <h2> References</h2>
+        <p><a name="[1]">[1]</a> <a href="https://papers.baulab.info/Vinyals-2015.pdf">
+          Vinyals, Oriol, et al. <em>Show and tell: A neural image caption generator.</em> </a> Proceedings of the IEEE conference on computer vision and pattern recognition. 2015.</p>
+        <p><a name="[2]">[2]</a> <a href="https://papers.baulab.info/Vinyals-2015.pdf">
+          A. Farhadi, et al. <em>Every picture tells a story: Generating sentences from images.</em></a> In ECCV, 2010</p>
+        <p><a name="[3]">[3]</a> <a href="https://papers.baulab.info/Vinyals-2015.pdf">
+          G. Kulkarni, et al. <em>Baby talk: Understanding and generating simple image descriptions.</em> </a> In CVPR, 2011.</p>
+        <p><a name="[4]">[4]<a href="https://papers.baulab.info/Vinyals-2015.pdf">
+          K. Cho, et al.<em> Learning phrase representations using RNN encoder-decoder for statistical machine translation.</em> </a> In EMNLP, 2014.</p>
+        <p><a name="[5]">[5]</a> <a href="https://papers.baulab.info/Vinyals-2015.pdf">
+          T. Mikolov, et al. <em>  Efficient estimation of word representations in vector space.</em></a>  In ICLR, 2013.</p>
+          
+        <h2>Team Members</h2>
+        <ul>
+          <li><a href = https://www.linkedin.com/in/mary-dao-4babb2215>Mary Dao</a></li>
+          <li><a href = https://www.linkedin.com/in/kevin-russell-3b849087>Kevin Russell</a></li>
+          <li><a href = https://www.linkedin.com/in/tarandeep-singh-947135104>Tarandeep Singh</a></li>
+        </ul>
+
+      </div>
+      <!--col-->
+    </div>
+    <!--row -->
+  </div> <!-- container -->
+
+  <footer class="nd-pagefooter">
+    <div class="row">
+      <div class="col-6 col-md text-center">
+        <a href="https://cs7150.baulab.info/">About CS 7150</a>
+      </div>
+    </div>
+  </footer>
 
 </body>
 <script>
-$(document).on('click', '.clickselect', function(ev) {
-  var range = document.createRange();
-  range.selectNodeContents(this);
-  var sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
-});
-// Google analytics below.
-window.dataLayer = window.dataLayer || [];
+  $(document).on('click', '.clickselect', function (ev) {
+    var range = document.createRange();
+    range.selectNodeContents(this);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
+  // Google analytics below.
+  window.dataLayer = window.dataLayer || [];
 </script>
+
 </html>
