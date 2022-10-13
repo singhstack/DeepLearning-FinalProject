@@ -22,6 +22,9 @@
     crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
   <link href="style.css" rel="stylesheet">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 
 </head>
 
@@ -39,13 +42,13 @@
     <div class="row">
       <div class="col justify-content-center text-center">
         <h2>Augmentation and Adjustment: Can we improve Neural Image Caption model performance?</h2>
-        <p>Neural Image Caption (NIC) generates image captions using Vision Based Deep Network and LSTM</p>
+        <p>Project Progress: Week 2</p>
       </div>
     </div>
     <div class="row">
       <div class="col">
 
-        <h2>Figures</h2>
+        <h2>Dataset and Block Diagram</h2>
         
         <p>Here are some sample images along with the annotations from the COCO Dataset that we have used for our project:</p>
         <table style="width: 100%;margin-bottom: 30px;">
@@ -59,76 +62,71 @@
         </table>
 
         <p>The diagram below presents a high level description of our implementation:</p>
-      <table style="width: 50%">
-        <tr>
-          <td><img style="width: 100%;height: 100%; margin: auto;" alt="" src="img/image10.png"></img></td>
-        </tr>
-      </table>
-
-        <h2>Related Work</h2>
-
-        <p> 
-          In 2015, <a href="[1]">Oriol Vinyals [1]</a> and his team were successfully able to automatically generate a caption given 
-          an input image by combining advanced computer vision and natural language processing techniques. 
-          The model, dubbed the Neural Image Caption (NIC), utilizes Convolution Neural Networks (CNN) and 
-          Recurrent Neural Network (RNN) technology to capture not only objects within the images, but also 
-          relationships between them. Previous attempts to solve the problem proposed to glue together sentences 
-          from images or image descriptions to describe the content of an image with words <a href='[2]'>[2]</a>,<a href='[3]'>[3]</a>.
-          However, this paper presented a novel technique that achieved state-of-the-art performance inspired by breakthroughs 
-          made in 2014 in machine translation. <a href='[4]'>Cho, et. al [4]</a> proved that text translation can be achieved by 
-          simply leveraging RNNs to encode source sentences, then decode them to generate target sentences. 
-          Vinyals, et. al. were able to adapt this idea to form a more robust model using a CNN as the encoder 
-          which produces a rich representation of the input image by embedding it to a fixed-length vector. 
+        <table style="width: 50%;margin: auto;">
+          <tr>
+            <td><img style="width: 100%;height: 100%; margin: auto;" alt="" src="img/image10.png"></img></td>
+          </tr>
+        </table>
+        <h2>A Conceptual Review</h2>
+        <p>
+          The original Neural Image Caption (NIC) model, as described in the 2015 paper by Oriol Vinyals, et. al.,
+          is composed of a deep convolutional neural network (CNN) and a recurrent neural network (RNN), which act
+          as the encoder and decoder, respectively. The CNN was first pre-trained for image classification 
+          tasks, then used to embed the input image into a fixed-length vector. The last hidden layer is thereafter provided 
+          as visual input directly to the RNN. The authors chose to use a Long-Short Term Memory (LSTM) net as the RNN for
+          sequence modeling because of its ability to handle vanishing and exploding gradients. The loss function is the sum of the 
+          negative log likelihood of the correct word at every step: 
           <br>
           <br>
-          The NIC model directly maximizes the probability of correctly describing an image. To model the probability of 
-          a sentence given an image, a particular RNN called Long-Short Term Memory (LSTM) was selected due to its 
-          abilities for handling sequence tasks as well as vanishing and exploding gradients. As input to the LSTM model, 
-          the authors chose to use word embedding vectors <a href='#[5]'>[5]</a> and speculated that distances between word embeddings may 
-          provide more insight for rarer words. We aim to explore this hypothesis by adjusting the word embedding vector 
-          representations such that each word is closest to other words with similar definitions. This in turn can improve 
-          the performance of the model in some particular edge cases. An important note also mentioned in the paper indicated 
-          that performance improves as the size of the datasets increases. This is true for many machine learning models and 
-          we would like to discover if this problem can be mitigated by simply using data augmentation approaches such as image 
-          rotation and positional translation. With these changes to the model, we hope to improve its performance in order to 
-          better serve those who need it.
+          
+          \(L(I, S)=-\sum_{t=1}^N \log p_t\left(S_t\right)\). 
+          <br>
+          <br>
+          Where I is the image,  S is the sentence, and t is the step. For inference and sentence generation, the BeamSearch 
+          approach was selected, which iteratively considers the set of k best sentences up to time t.
+
 
         </p>
 
-        <h2>Project Proposal</h1>
+      
+
+        <h2>Implementation Details</h2>
+
+        <p> 
+          For our dataset, we used <a href='[2]'>COCOAPI [2]</a> for annotations and images. For hyperparameters, we used 128 batch size, 
+          300 embedding size, 3 epochs, 0.001 learning rate, and total steps is length of caption size divided by batch size.
+
+ 
+        </p>
+
+        <h2>Findings</h1>
 
           <p>
-            Vision and natural language has been an active topic in the machine learning world for the past 7 years. 
-            Although Vinyals and his team were able to achieve state-of-the-art performance, there were still many images 
-            incorrectly described during their time. For the visually impaired, incorrect image captions could mislead the 
-            actual situation. This is critical because the visually impaired could benefit the most from this type of technology. 
-            The question becomes whether or not the performance for NIC can be improved? One idea is to increase the training dataset, 
-            but the biggest issue is to find or create a large enough dataset to use, which is why we propose the use of data 
-            augmentation techniques. By leveraging data augmentation techniques, the training dataset can be artificially increased, 
-            and potentially gain performance.
+            At first we attempted to use <a href='#[4]'> Tong’s model [4]</a> for NIC, but had issues downloading Visual Genome from Stanford. 
+            Eventually, we found a model created by <a href='#[4]'> Shwetank [3]</a> that allowed us to train a model with a publicly available dataset. 
+            However, there were many difficulties loading the actual dataset into the original model due to compiling complications. 
+            The model ran as expected and we were able to capture text from images.
             <br>
             <br>
-            Another way to potentially increase performance will be to use a word embedding trick. 
-            <a href='[1]'>Vinyals [1]</a> mentioned that the word embedding vector model, chosen over the one-hot encoding and bag-of-words, 
-            was selected because of its independence from dictionary size and information structure. We propose to adjust 
-            the word embeddings so that the words with similar definitions are closest to each other. This should allow 
-            better sentence selection to describe the image, and improve performance of the NIC model. By adjusting word 
-            embeddings to similar definitions, we can pair performance gains with data augmentation techniques to see 
-            whether performance can be near or meet human performance.
-  
+            Before running the model, we expected that the process to load/download data and run an existing model. However, Tong’s model 
+            needed the bottom up attention approach to extract annotations from images. Surprisingly, the method labels segments of each 
+            image and records the areas of these segments. Shwetank’s approach used COCOAPI that already had annotations extracted from each image.
+            <br>
+            <br>
+            A major obstacle that we avoided was to not recode something that exists as an online resource. We also decided to utilize 
+            the model’s pre-existing dataset. 
+
           </p>
 
         <h2> References</h2>
         <p><a name="[1]">[1]</a> <a href="https://papers.baulab.info/Vinyals-2015.pdf">
           Vinyals, Oriol, et al. <em>Show and tell: A neural image caption generator.</em> </a> Proceedings of the IEEE conference on computer vision and pattern recognition. 2015.</p>
-        <p><a name="[2]">[2]</a> <a href="https://papers.baulab.info/Vinyals-2015.pdf">
-          A. Farhadi, et al. <em>Every picture tells a story: Generating sentences from images.</em></a> In ECCV, 2010</p>
-        <p><a name="[3]">[3]</a> <a href="https://papers.baulab.info/Vinyals-2015.pdf">
-          G. Kulkarni, et al. <em>Baby talk: Understanding and generating simple image descriptions.</em> </a> In CVPR, 2011.</p>
-        <p><a name="[4]">[4]<a href="https://papers.baulab.info/Vinyals-2015.pdf">
-          K. Cho, et al.<em> Learning phrase representations using RNN encoder-decoder for statistical machine translation.</em> </a> In EMNLP, 2014.</p>
-        <p><a name="[5]">[5]</a> <a href="https://papers.baulab.info/Vinyals-2015.pdf">
-          T. Mikolov, et al. <em>  Efficient estimation of word representations in vector space.</em></a>  In ICLR, 2013.</p>
+        <p><a name="[2]">[2]</a> <a href="https://github.com/cocodataset/cocoapi">
+          https://github.com/cocodataset/cocoapi</a> </p>
+        <p><a name="[3]">[3]</a> <a href="https://github.com/pshwetank/NIC-2015-Pytorch">
+          https://github.com/pshwetank/NIC-2015-Pytorch </a> </p>
+        <p><a name="[4]">[4]<a href="https://github.com/ezeli/NIC_model">
+          https://github.com/ezeli/NIC_model </a> </p>
           
         <h2>Team Members</h2>
         <ul>
