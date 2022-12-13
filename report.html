@@ -72,7 +72,7 @@
 
           Our goal is to improve its performance in order to better serve those who need it. 
           We set out on this task by taking some learnings from the Deep Learning course by Professor David Bau,
-          the author’s own recommendations, and following our own intuition. Over the course of the project, 
+          ecommendations by the author, and following our own intuition. Over the course of the project, 
           we built our own NIC from scratch. In doing this, we made some modifications and upgrades to its 
           existing architecture, the training data, and its evaluation criteria (Figure 1). Our results show 
           that NIC can be improved significantly and additionally, we identified some methods that can be incorporated
@@ -86,7 +86,7 @@
 
         <p> 
 
-          Since Yann Lecun’s invention of convolutional neural networks (CNNs) in 1989 <a href = #[2]>[2]</a>, many have 
+          Since Yann Lecun invented convolutional neural networks (CNNs) in 1989 <a href = #[2]>[2]</a>, many have 
           adopted deep learning models for processing images. Previously proposed solutions for image
           captioning tended to stitch together multiple frameworks <a href = #[3]>[3,4]</a>. The significance of the 
           Show and Tell paper lies in its end-to-end system design, which leverages both deep CNNs 
@@ -109,9 +109,9 @@
         <p>
         For our project we chose to build the method for NIC from scratch, and to add a deeper 152-layer 
         Residual Network (ResNet152), a Layer Norm between the Long-Short Term Memory (LSTM) cells, 
-        several different image augmentations, and nucleus sampling. We wanted to understand the architect
+        several different image augmentations, and nucleus sampling <a href = #[12]>[12]</a>. We wanted to understand the architect
         so that we can understand the best way to improve its performance. In total, we compared results 
-        for the original NIC paper architect, Shwetank Panwar’s PyTorch-based NIC architect <a href = #[6]>[6]</a>, and the 
+        for the original NIC paper architect, PyTorch-based NIC architect by Shwetank Panwar <a href = #[6]>[6]</a>, and the 
         re-implementation of our own version of NIC (Table 1).
 
         <table style="width: 50%;margin: auto;">
@@ -274,7 +274,9 @@
       Zongjian, Z., Qiang, W., Yang, W., Fang, C.<em>Exploring region relationships implicitly: image captioning with visual relationship attention.</em> </a>Image Vis. Comput. 109, 104146, 2021. </p>
       <p><a name="[11]">[11]</a> <a href="https://doi.org/10.1016/j.neucom.2019.08.012">
       Su, J., Tang, J., Lu, Z., Han, X., Zhang, H<em> A neural image captioning model with caption-to-images semantic constructor.</em> </a>Neurocomputing 367, 2019. </p>
-      
+      <p><a name="[12]">[12]</a> <a href="https://github.com/labmlai/annotated_deep_learning_paper_implementations/blob/master/labml_nn/sampling/nucleus.py">
+        LabMLAI <em>Annotated deep learning paper implementations</em> </a> Github repository, 2022</p>
+
         <h2>Team Members</h2>
         <ul>
           <li><a href = https://www.linkedin.com/in/mary-dao-4babb2215>Mary Dao</a></li>
