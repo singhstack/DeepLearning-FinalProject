@@ -49,7 +49,7 @@
       <div class="col">
 
         <h2>Block Diagram</h2>
-        
+
         <p>The diagram below presents a high level description of our implementation:</p>
         <table style="width: 50%;margin: auto;">
           <tr>
@@ -58,105 +58,136 @@
         </table>
         <h2>A Conceptual Review</h2>
         <p>
-          The original Neural Image Caption (NIC) model, as described in the 2015 paper by <a href='[5]'>Oriol Vinyals et. al. [5]</a>,
+          The original Neural Image Caption (NIC) model, as described in the 2015 paper by <a href='[5]'>Oriol Vinyals
+            et. al. [5]</a>,
           is composed of a deep convolutional neural network (CNN) and a recurrent neural network (RNN), which act
-          as the encoder and decoder, respectively. The CNN was first pre-trained for image classification 
-          tasks, then used to embed the input image into a fixed-length vector. The last hidden layer is thereafter provided 
-          as visual input directly to the RNN. The authors chose to use a Long-Short Term Memory (LSTM) net as the RNN for
-          sequence modeling because of its ability to handle vanishing and exploding gradients. The loss function is the sum of the 
-          negative log likelihood of the correct word at every step: 
+          as the encoder and decoder, respectively. The CNN was first pre-trained for image classification
+          tasks, then used to embed the input image into a fixed-length vector. The last hidden layer is thereafter
+          provided
+          as visual input directly to the RNN. The authors chose to use a Long-Short Term Memory (LSTM) net as the RNN
+          for
+          sequence modeling because of its ability to handle vanishing and exploding gradients. The loss function is the
+          sum of the
+          negative log likelihood of the correct word at every step:
           <br>
           <br>
-          
-          \(L(I, S)=-\sum_{t=1}^N \log p_t\left(S_t\right)\). 
+
+          \(L(I, S)=-\sum_{t=1}^N \log p_t\left(S_t\right)\).
           <br>
           <br>
-          Where I is the image,  S is the sentence, and t is the step. For inference and sentence generation, the BeamSearch 
-          approach was selected, which iteratively considers the set of k best sentences up to time t. BLEU, METEOR, and CIDER
-           scores were reported for model evaluation, but perplexity is also mentioned as a metric used for tuning 
-           hyperparameters and model selection.
+          Where I is the image, S is the sentence, and t is the step. For inference and sentence generation, the
+          BeamSearch
+          approach was selected, which iteratively considers the set of k best sentences up to time t. BLEU, METEOR, and
+          CIDER
+          scores were reported for model evaluation, but perplexity is also mentioned as a metric used for tuning
+          hyperparameters and model selection.
 
         </p>
 
-      
+
 
         <h2>Implementation Details</h2>
 
-        <p> 
+        <p>
 
-          For our dataset, we used the <a href='[2]'>MSCOCO Dataset [2]</a> for annotations and images, and utilized the COCO API to facilitate loading, parsing, 
-          and visualization of the dataset <a href='[1]'>[1]</a>. We used 128 batch size, 300 embedding size, 3 epochs, 0.001 learning rate, and length of 
-          caption size divided by batch size for steps as hyperparameters. 
-          
-          The NIC architecture utilizes resnet50 with a web embedding linear layer to encode the input. This encoding  is passed through an embedding, LSTM, and linear layers to decode the encoding, which is lastly 
-          passed through cross entropy for loss. Training ran overnight and was able to successfully save the best model possible in 3 epochs.
+          For our dataset, we used the <a href='[2]'>MSCOCO Dataset [2]</a> for annotations and images, and utilized the
+          COCO API to facilitate loading, parsing,
+          and visualization of the dataset <a href='[1]'>[1]</a>. We used 128 batch size, 300 embedding size, 3 epochs,
+          0.001 learning rate, and length of
+          caption size divided by batch size for steps as hyperparameters.
 
- 
+          The NIC architecture utilizes resnet50 with a web embedding linear layer to encode the input. This encoding is
+          passed through an embedding, LSTM, and linear layers to decode the encoding, which is lastly
+          passed through cross entropy for loss. Training ran overnight and was able to successfully save the best model
+          possible in 3 epochs.
+
+
         </p>
 
         <h2>Findings</h1>
 
           <p>
-            At first we attempted to use <a href='#[4]'> Tong’s model [4]</a> for NIC, but had issues downloading Visual Genome from Stanford. 
-            Eventually, we found a model created by <a href='#[4]'> Shwetank [3]</a> that allowed us to train a model with a publicly available dataset. 
-            However, there were many difficulties loading the actual dataset into the original model due to compiling complications. 
+            At first we attempted to use <a href='#[4]'> Tong’s model [4]</a> for NIC, but had issues downloading Visual
+            Genome from Stanford.
+            Eventually, we found a model created by <a href='#[4]'> Shwetank [3]</a> that allowed us to train a model
+            with a publicly available dataset.
+            However, there were many difficulties loading the actual dataset into the original model due to compiling
+            complications.
             The model ran as expected and we were able to capture text from images.
             <br>
             <br>
-            Before running the model, we expected that the process to load/download data and run an existing model. However, 
-            Li’s model needed the bottom up attention approach to extract annotations from images. Surprisingly, the method labels 
-            segments of each image and records the areas of these segments. In contrast, Shwetank’s approach used the MSCOCO dataset, 
+            Before running the model, we expected that the process to load/download data and run an existing model.
+            However,
+            Li’s model needed the bottom up attention approach to extract annotations from images. Surprisingly, the
+            method labels
+            segments of each image and records the areas of these segments. In contrast, Shwetank’s approach used the
+            MSCOCO dataset,
             which is a large pre-existing dataset that already has human-generated annotations for each image.
             <br>
             <br>
-            Another issue we had was accessing the Discovery cluster to run the model. When ran on a regular MacBook Pro, the model 
-            took a very long time to go through each epoch. By reducing the number of steps, we were able to run the code without any 
-            errors, but the output captions had no meaning and did not correctly describe the images. Luckily, we have access to a 
-            Geforce RTX 3070 on one of our local machines and were able to complete all steps and epochs to successfully capture text 
+            Another issue we had was accessing the Discovery cluster to run the model. When ran on a regular MacBook
+            Pro, the model
+            took a very long time to go through each epoch. By reducing the number of steps, we were able to run the
+            code without any
+            errors, but the output captions had no meaning and did not correctly describe the images. Luckily, we have
+            access to a
+            Geforce RTX 3070 on one of our local machines and were able to complete all steps and epochs to successfully
+            capture text
             from images.
 
-            <table style="width: 50%;margin: auto;">
-              <tr>
-                <td><img style="width: 100%;height: 100%; margin: auto;" alt="" src="img/implementation_image.png"></img></td>
-              </tr>
-            </table>
+          <table style="width: 50%;margin: auto;">
+            <tr>
+              <td><img style="width: 100%;height: 100%; margin: auto;" alt="" src="img/implementation_image.png"></img>
+              </td>
+            </tr>
+          </table>
 
           </p>
 
           <h2>Future Plan</h2>
           <p>
-            Since our implementation was successful, we have decided to not change our plan, but to examine the code in more finer detail to
-            see if we can augment the images and adjust the algorithm for the word embeddings. We also plan to tune our hyperparameters because we 
-            have encountered sub-optimal results even with a large and robust dataset such as MSCOCO. Furthermore, we would like to utilize other
-            smaller datasets to apply these new techniques. 
-              
-            In particular, the original NIC paper tested the model on the Flickr8k dataset, which contains only 6,000 training images compared to MSCOCO’s 82,783 training size. 
-            
-            We hypothesize that data augmentation and word vector embedding adjustment will be most effective with a significantly smaller dataset, having less training data 
+            Since our implementation was successful, we have decided to not change our plan, but to examine the code in
+            more finer detail to
+            see if we can augment the images and adjust the algorithm for the word embeddings. We also plan to tune our
+            hyperparameters because we
+            have encountered sub-optimal results even with a large and robust dataset such as MSCOCO. Furthermore, we
+            would like to utilize other
+            smaller datasets to apply these new techniques.
+
+            In particular, the original NIC paper tested the model on the Flickr8k dataset, which contains only 6,000
+            training images compared to MSCOCO’s 82,783 training size.
+
+            We hypothesize that data augmentation and word vector embedding adjustment will be most effective with a
+            significantly smaller dataset, having less training data
             adversely affects model performance.
 
           </p>
 
 
-        <h2> References</h2>
-        <p><a name="[1]">[1]</a> <a href="https://github.com/cocodataset/cocoapi">
-        Dollar, Piotr and Lin, Tsung-Yi <em>COCO API, 2014.</em> </a> Github repository.</p>
-        <p><a name="[2]">[2]</a> <a href="https://arxiv.org/abs/1405.0312">
-        Lin, Tsung-Yi, et al. <em>Microsoft coco: Common objects in context.</em> </a> European conference on computer vision. Springer, Cham, 2014.</p>
-        <p><a name="[3]">[3]</a> <a href="https://github.com/cocodataset/cocoapi">
-        Panwar, Shwetank. <em> NIC-2015-Pytorch, 2019</em> </a> Github repository.</p>
-        <p><a name="[4]">[4]</a> <a href="https://github.com/cocodataset/cocoapi">
-        Tong, Li. <em> NIC Model, 2019.</em> </a> Github repository.</p>
-        <p><a name="[5]">[5]</a> <a href="https://papers.baulab.info/Vinyals-2015.pdf">
-        Vinyals, Oriol, et al. <em>Show and tell: A neural image caption generator.</em> </a> Proceedings of the IEEE conference on computer vision and pattern recognition. 2015.</p>
-          
-        <h2>Team Members</h2>
-        <ul>
-          <li><a href = https://www.linkedin.com/in/mary-dao-4babb2215>Mary Dao</a></li>
-          <li><a href = https://www.linkedin.com/in/kevin-russell-3b849087>Kevin Russell</a></li>
-          <li><a href = https://www.linkedin.com/in/tarandeep-singh-947135104>Tarandeep Singh</a></li>
-        </ul>
+          <h2> References</h2>
+          <p><a name="[1]">[1]</a> <a href="https://github.com/cocodataset/cocoapi">
+              Dollar, Piotr and Lin, Tsung-Yi <em>COCO API, 2014.</em> </a> Github repository.</p>
+          <p><a name="[2]">[2]</a> <a href="https://arxiv.org/abs/1405.0312">
+              Lin, Tsung-Yi, et al. <em>Microsoft coco: Common objects in context.</em> </a> European conference on
+            computer vision. Springer, Cham, 2014.</p>
+          <p><a name="[3]">[3]</a> <a href="https://github.com/cocodataset/cocoapi">
+              Panwar, Shwetank. <em> NIC-2015-Pytorch, 2019</em> </a> Github repository.</p>
+          <p><a name="[4]">[4]</a> <a href="https://github.com/cocodataset/cocoapi">
+              Tong, Li. <em> NIC Model, 2019.</em> </a> Github repository.</p>
+          <p><a name="[5]">[5]</a> <a href="https://papers.baulab.info/Vinyals-2015.pdf">
+              Vinyals, Oriol, et al. <em>Show and tell: A neural image caption generator.</em> </a> Proceedings of the
+            IEEE conference on computer vision and pattern recognition. 2015.</p>
 
+          <h2>Team Members</h2>
+          <ul>
+            <li><a href=https://www.linkedin.com/in/mary-dao-4babb2215>Mary Dao</a></li>
+            <li><a href=https://www.linkedin.com/in/kevin-russell-3b849087>Kevin Russell</a></li>
+            <li><a href=https://www.linkedin.com/in/tarandeep-singh-947135104>Tarandeep Singh</a></li>
+          </ul>
+          
+          <p>
+            <a href="report.html" target="_blank">Click here for project report</a>"
+          </p>
       </div>
       <!--col-->
     </div>
