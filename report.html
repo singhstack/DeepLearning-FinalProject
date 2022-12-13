@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Improving NIC</title>
+  <meta property="og:title" content="Adjustment and Augmentation" />
+  <meta name="twitter:title" content="Your Project Name" />
+  <meta name="description" content="Your project about your cool topic described right here." />
+  <meta property="og:description" content="Your project about your cool topic described right here." />
+  <meta name="twitter:description" content="Your project about your cool topic described right here." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- bootstrap for mobile-friendly layout -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+    crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+</head>
+
+<body class="nd-docs">
+  <div class="nd-pageheader">
+    <div class="container">
+      <h1 class="lead">
+        <nobr class="widenobr">Deep Learning Final Project</nobr>
+        <nobr class="widenobr">For CS 7150</nobr>
+      </h1>
+    </div>
+  </div><!-- end nd-pageheader -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col justify-content-center text-center">
+        <h2>Augmentation and Adjustment: Improving Neural Image Caption</h2>
+        <h4>Project Report</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+`
+        <h2>Block Diagram</h2>
+        
+        <p>The diagram below presents a high level description of our implementation:</p>
+        <table style="width: 50%;margin: auto;">
+          <tr>
+            <td><img style="width: 100%;height: 100%; margin: auto;" alt="" src="img/block_diagram.png"></img></td>
+          </tr>
+        </table>
+        <h2>Introduction</h2>
+        <p>
+          The intersection of vision and natural language processing has been a widely active topic 
+          in the machine learning world in the past 7 years. With the Neural Image Caption (NIC) 
+          technique introduced in 2015, Vinyals and his team were able to achieve state-of-the-art 
+          performance in this image representation task <a href = #[1]>[1]</a>. Although the development of this neural 
+          network architecture was a successful and extraordinary feat, there were still many mislabeled
+          images shown and discussed in the paper. For the visually impaired, who depend on this type of
+          technology, incorrect image captions could mislead the actual situation. The question then becomes
+          whether or not the performance for NIC can be improved.
+          
+          <br>
+          <br>
+
+          Our goal is to improve its performance in order to better serve those who need it. 
+          We set out on this task by taking some learnings from the Deep Learning course by Professor David Bau,
+          the author’s own recommendations, and following our own intuition. Over the course of the project, 
+          we built our own NIC from scratch. In doing this, we made some modifications and upgrades to its 
+          existing architecture, the training data, and its evaluation criteria (Figure 1). Our results show 
+          that NIC can be improved significantly and additionally, we identified some methods that can be incorporated
+          to improve NIC further.
+
+        </p>
+
+      
+
+        <h2>Background</h2>
+
+        <p> 
+
+          Since Yann Lecun’s invention of convolutional neural networks (CNNs) in 1989 <a href = #[2]>[2]</a>, many have 
+          adopted deep learning models for processing images. Previously proposed solutions for image
+          captioning tended to stitch together multiple frameworks <a href = #[3]>[3,4]</a>. The significance of the 
+          Show and Tell paper lies in its end-to-end system design, which leverages both deep CNNs 
+          for image processing and Recurrent Neural Networks (RNNs) for sequence modeling to create 
+          a single CNN-RNN network that generates descriptions of images. They were heavily inspired 
+          by Cho, et. al. (2014), who pioneered the dual RNN-RNN encoder-decoder structure that achieved
+          state-of-the-art performance in machine translation <a href = #[5]>[5]</a>. 
+
+          This approach allows for image processing and text generation to occur within the same network,
+          in contrast to methods such as the one developed by Li, et. al., which began with detections and 
+          pieced together a final description using phrases containing detected objects and relationships <a href = #[3]>[3]</a>.
+          With all of these endeavors to solve a task that is simple for humans but extremely complex for machines
+          to do, we were motivated to dissect the NIC model and discover how we could make additional improvements
+          without completely changing the overall structure.
+ 
+        </p>
+
+        <h2>Method</h1>
+
+        <p>
+        For our project we chose to build the method for NIC from scratch, and to add a deeper 152-layer 
+        Residual Network (ResNet152), a Layer Norm between the Long-Short Term Memory (LSTM) cells, 
+        several different image augmentations, and nucleus sampling. We wanted to understand the architect
+        so that we can understand the best way to improve its performance. In total, we compared results 
+        for the original NIC paper architect, Shwetank Panwar’s PyTorch-based NIC architect <a href = #[6]>[6]</a>, and the 
+        re-implementation of our own version of NIC (Table 1).
+
+        <table style="width: 50%;margin: auto;">
+          <tr>
+            <td><img style="width: 100%;height: 100%; margin: auto;" alt="" src="img/Table_1.png"></img></td>
+          </tr>
+        </table>
+        <b>Table 1.</b> Architecture comparison of the original NIC model, Shwetank Panwar’s PyTorch implementation of NIC, 
+        and our own PyTorch implementation of NIC. </p>
+
+        <p>
+        For augmentations, we chose three approaches that used simple and complex transformations, 
+        which are summarized below in Figure 2. We used the Albumentations Python package <a href = #[7]>[7]</a>, 
+        which boasts fast and flexible image augmentations, to perform these transformations. 
+        We selected these functions because we wanted to create diversity within the dataset so that
+        the model could better learn image captioning.
+        
+
+        <table style="width: 50%;margin: auto;">
+          <tr>
+            <td><img style="width: 100%;height: 100%; margin: auto;" alt="" src="img/Figure_2.png"></img></td>
+          </tr>
+        </table>
+
+        <br>
+        <br>
+
+        We also discovered a newer sampling method called nucleus sampling that leverages probability mass 
+        to filter the cumulative distribution function (CDF) of the word probabilities to sample among words 
+        that may be more surprising than samples made through beam search or top sampling <a href = #[8]>[8]</a>. To implement 
+        nucleus sampling, we chose to utilize Temperature Sampling to choose among the word probabilities. 
+        Temperature Sampling is inspired by statistical thermodynamics where high temperature means low energy
+        states are more likely to occur <a href = #[9]>[9]</a>. 
+
+        <br>
+        <br>
+
+
+        <table style="width: 50%;margin: auto;">
+            <tr>
+              <td><img style="width: 100%;height: 100%; margin: auto;" alt="" src="img/Figure_3.png"></img></td>
+            </tr>
+        </table>
+
+        </p>
+
+        <h2>Results</h2>
+
+
+        <p>
+        Methods 2 and 3 for image augmentations resulted in suboptimal image captions, but we were able to 
+        generate text descriptive of the input images using Method 1 (Figure 4). As shown in Figure 4 (A), 
+        the captions on both images do not describe the scene at all. We suspected that this is due to the 
+        more complex image augmentations performed on the images for the second and third methods.
+        <br>
+        <br>
+
+        <table style="width: 50%;margin: auto;">
+          <tr>
+            <td><img style="width: 100%;height: 100%; margin: auto;" alt="" src="img/Figure_4.png"></img></td>
+          </tr>
+        </table>
+
+        <br>
+        <br>
+
+        By probing into the model, we discovered the underlying reason these methods were underperforming. 
+        The sample augmentation image displayed in Figure 5 confirmed our belief that image augmentation can
+        be detrimental to the model when applied in excess. In identifying this issue with Methods 2 and 3, 
+        we decided to move forward using Method 1 only to train the model and then test the effect of nucleus sampling.
+
+        <br>
+        <br>
+
+        <table style="width: 50%;margin: auto;">
+          <tr>
+            <td><img style="width: 100%;height: 100%; margin: auto;" alt="" src="img/Figure_5.png"></img></td>
+          </tr>
+        </table>
+
+
+      <br>
+      <br>
+
+        We evaluated the model by generating captions for every image in the validation set of 5,000 images,
+        computing the BLEU-4 scores against the five human-written annotations as the reference, and taking 
+        the mean of all scores. The results show that our model outperforms both the original NIC architecture
+        and the aforementioned Shwetank model (Figure 6). 
+
+        <table style="width: 50%;margin: auto;">
+          <tr>
+            <td><img style="width: 100%;height: 100%; margin: auto;" alt="" src="img/Figure_6.png"></img></td>
+          </tr>
+      </table>
+
+      <br>
+      <br>
+
+        Notably, the use of nucleus sampling significantly increased performance in both of the tested models,
+        yielding BLEU-4 scores of 31.1 and 27.5 for our model and Shwetank’s model, respectively. When generating
+        captions with beam search, however, this degraded the scores by approximately 3 points for both methods.
+        Nucleus sampling is a relatively new concept that was published 5 years after the Show and Tell paper Vinyals, et al. 
+        and our results demonstrate that this technique is more effective than beam search.
+
+        <br>
+        <br>
+  
+
+        Regardless of the sampling technique selected for the caption generation, our architecture performs 
+        better than the Shwetank model in terms of BLEU-4 scores. When employing nucleus sampling, for example,
+        our model evaluation metric exceeds Shwetank’s by about 4 points. This could be due to our choices for
+        data augmentation, the increase in ResNet hidden size, the use of LayerNorm instead of dropout, or the 
+        number of calls to the LSTM decoder. Due to a lack of computing power, we did not have the chance to train
+        separate models and identify the most effective architecture adjustment. However, this would be an interesting
+        aspect to explore in the future by changing one element in the architecture at a time, then training and 
+        evaluating the model.
+
+        <table style="width: 50%;margin: auto;">
+          <tr>
+            <td><img style="width: 100%;height: 100%; margin: auto;" alt="" src="img/Table_2.png"></img></td>
+          </tr>
+      </table>
+
+      <br>
+      <br>
+
+        Table 2 displays the BLEU-4 scores for our method along with several others that have been successful 
+        in the recent years. The key developments include semantic representation of the input image and the addition
+        of attention <a href = #[10]>[10]</a>. While our method could not outperform these models that incorporate new and advanced technology,
+        we show that simple and subtle changes are capable of improving performance significantly. In our case, we observed 
+        a 3.9 BLEU-4 score increase compared to the original NIC model. 
+
+
+        </p>
+
+      <h2> Slides</h2>
+
+      <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQED7TaFZA1qD6vNmp_KcdWe8nJIKwvQsfrsBR8nBhyQowTuk98A4D0kaOJx43MwFfkGlIFhfyVx2I3/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+      <h2> References</h2>
+      <p><a name="[1]">[1]</a> <a href="https://papers.baulab.info/Vinyals-2015.pdf">
+        Vinyals, Oriol, et al. <em>Show and tell: A neural image caption generator.</em> </a> Proceedings of the IEEE conference on computer vision and pattern recognition, 2015.</p>
+      <p><a name="[2]">[2]</a> <a href="https://direct.mit.edu/neco/article-abstract/1/4/541/5515/Backpropagation-Applied-to-Handwritten-Zip-Code?redirectedFrom=fulltext">
+        LeCun, Y., et al. <em>Backpropagation Applied to Handwritten Zip Code Recognition</em> </a> Neural Computation, vol. 1, no. 4, pp. 541-551, Dec. 1989</p>
+      <p><a name="[3]">[3]</a> <a href="http://acberg.com/papers/ngram_desc.pdf">
+      S. Li, G. Kulkarni, T. L. Berg, A. C. Berg, and Y. Choi. <em>Composing simple image descriptions using web-scale n-grams</em> </a> In Conference on Computational Natural Language Learning, 2011.</p>
+      <p><a name="[4]">[4]</a> <a href="https://www.cs.cmu.edu/~afarhadi/papers/sentence.pdf">
+        A. Farhadi, M. Hejrati, M. A. Sadeghi, P. Young, C. Rashtchian, J. Hockenmaier, and D. Forsyth. <em>Every picture tells a story: Generating sentences from images.</em> </a> In ECCV, 2010.</p>
+      <p><a name="[5]">[5]</a> <a href="https://arxiv.org/pdf/1406.1078.pdf">
+        K. Cho, B. van Merrienboer, C. Gulcehre, F. Bougares, H. Schwenk, and Y. Bengio.<em>Learning phrase representations using RNN encoder-decoder for statistical machine translation.</em> </a>  In EMNLP, 2014.</p>
+      <p><a name="[6]">[6]</a> <a href="https://github.com/pshwetank/NIC-2015-Pytorch">
+        Panwar, Shwetank. <em> NIC-2015-Pytorch</em> </a> Github repository, 2019</p>
+      <p><a name="[7]">[7]</a> <a href="https://www.mdpi.com/2078-2489/11/2/125">
+        Buslaev, Alexander and Iglovikov, Vladimir I. and Khvedchenya, Eugene and Parinov, Alex and Druzhinin, Mikhail and Kalinin, Alexandr A.<em>Albumentations: Fast and Flexible Image Augmentations</em> </a>  Information, vol. 11, no. 2, article 125, 2020</p>
+      <p><a name="[8]">[8]</a> <a href="https://arxiv.org/pdf/1904.09751.pdf">
+      Holtzman, Ari, et al.<em>The curious case of neural text degeneration.</em> </a>  arXiv preprint. arXiv:1904.09751, 2019.</p>
+      <p><a name="[9]">[9]</a> <a href="https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277.">
+        Mann, Ben<em>How to sample from  language models.</em> </a>Online article, 2019</p>
+      <p><a name="[10]">[10]</a> <a href="https://doi.org/10.1016/j.imavis.2021.104146">
+      Zongjian, Z., Qiang, W., Yang, W., Fang, C.<em>Exploring region relationships implicitly: image captioning with visual relationship attention.</em> </a>Image Vis. Comput. 109, 104146, 2021. </p>
+      <p><a name="[11]">[11]</a> <a href="https://doi.org/10.1016/j.neucom.2019.08.012">
+      Su, J., Tang, J., Lu, Z., Han, X., Zhang, H<em> A neural image captioning model with caption-to-images semantic constructor.</em> </a>Neurocomputing 367, 2019. </p>
+      
+        <h2>Team Members</h2>
+        <ul>
+          <li><a href = https://www.linkedin.com/in/mary-dao-4babb2215>Mary Dao</a></li>
+          <li><a href = https://www.linkedin.com/in/kevin-russell-3b849087>Kevin Russell</a></li>
+          <li><a href = https://www.linkedin.com/in/tarandeep-singh-947135104>Tarandeep Singh</a></li>
+        </ul>
+
+      </div>
+      <!--col-->
+    </div>
+    <!--row -->
+  </div> <!-- container -->
+
+  <footer class="nd-pagefooter">
+    <div class="row">
+      <div class="col-6 col-md text-center">
+        <a href="https://cs7150.baulab.info/">About CS 7150</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+<script>
+  $(document).on('click', '.clickselect', function (ev) {
+    var range = document.createRange();
+    range.selectNodeContents(this);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
+  // Google analytics below.
+  window.dataLayer = window.dataLayer || [];
+</script>
+
+</html>
